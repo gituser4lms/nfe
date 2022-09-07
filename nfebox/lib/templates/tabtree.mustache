@@ -1,0 +1,110 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template core/tabtree
+
+    Tab tree.
+
+    Example context (json):
+    {
+        "tabs": [{
+            "active": "true",
+            "inactive": "false",
+            "link": [{
+                "link": "http://moodle.org"
+            }],
+            "title": "Moodle.org",
+            "text": "Moodle community"
+        }]
+    }
+}}
+ 
+
+  <div class="out-wrap cont">
+  <ul class="nav tabs nav-tabs  mb3 mt-0" id="tabs">
+  {{#tabs}}
+        <li class="tab-item nav-item" style="float:none;">
+      <a class="nav-link{{#active}} active{{/active}}{{#inactive}} disabled{{/inactive}}" {{#link}}href="{{{link}}}"{{/link}} title="{{title}}">{{{text}}}</a>
+    </li>
+  {{/tabs}}
+  </ul>
+
+  {{#secondrow}}
+  {{>core/tabtree}}
+  {{/secondrow}}
+  </div>
+
+  <span class="arrow-left"><i class="fa fa-arrow-left"></i></span>
+  <span class="arrow-right"><i class="fa fa-arrow-right"></i></span>
+
+<script>
+$('.arrow-right').on('click', function () {
+  var scroll = $('.cont').scrollLeft();
+  
+  $('.cont').animate( { 
+      scrollLeft: scroll+120
+    },'slow');
+});
+$('.arrow-left').on('click', function () {
+  var scroll = $('.cont').scrollLeft();
+  
+  $('.cont').animate( { 
+      scrollLeft: scroll-120
+    },'slow');
+});
+
+$(function(){
+
+
+    $('.tabs').on('click', '.tab-item', function(){
+      setStorage($(this).index())
+    });
+
+  });
+
+  window.addEventListener('load', function() {
+      var clicki = (sessionStorage.getItem('clicki')) ? (sessionStorage.getItem('clicki')) : 0 ;
+      // alert(clicki);
+      activeTab(clicki);
+  });
+
+
+  function setStorage(myNum){
+    sessionStorage.setItem('clicki', myNum);
+    activeTab(myNum);
+  }
+ 
+  function activeTab(i){
+    $('.tab-item').removeClass('active');
+    var active = $('.tab-item').eq(i).addClass('active');
+    var left = active.position().left;
+    var currScroll= $(".cont").scrollLeft(); 
+    var contWidth = $('.cont').width()/2; 
+    var activeOuterWidth = active.outerWidth()/2; 
+    left= left + currScroll - contWidth + activeOuterWidth;
+
+    $('.cont').animate( { 
+      scrollLeft: left
+    },'slow');
+  }
+
+
+
+</script>
+
+
+

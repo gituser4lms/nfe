@@ -1,0 +1,34 @@
+Media Player Module for Moodle 1.9
+
+Originally Designed and developed by Matt Bury
+
+© Matt Bury 2009 onwards
+Website: http://matbury.com/
+
+Redrawn for Moodle 2 by Valery Fremaux (valery.fremaux@gmail.com)
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+Installation
+
+
+Design Notes
+===============
+
+The .stm format
+
+STM files are manifests that are used as proxy descriptors for remotely dispatched medias. 
+the effective media file may be stored into an extra storage out of control of Moodle and
+may be delivered from a streamed URL. the manifest file should be usually built by the MPlayer 
+module, after a media upload. the manifest file is an XML file with a simple internal schema :
+
+<XML version="1.0">
+<Video>
+    <Source>
+        <streamer>wowza</streamer>
+        <streamerurl>rtmp://medias.mysite/com</streamerurl>
+        <appication>/vod</application>
+        <clip>0</clip>
+        <location>mp4:streamedfile.mp4</location>
+    </Source>
+</Video>
